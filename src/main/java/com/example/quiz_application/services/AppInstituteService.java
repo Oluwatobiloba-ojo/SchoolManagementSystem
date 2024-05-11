@@ -1,0 +1,56 @@
+package com.example.quiz_application.services;
+
+import com.example.quiz_application.data.model.Institution;
+import com.example.quiz_application.data.repository.InstitutionRepository;
+import com.example.quiz_application.dtos.request.AddTeacherRequest;
+import com.example.quiz_application.dtos.request.InstitutionRegistrationRequest;
+import com.example.quiz_application.dtos.response.AddTeacherResponse;
+import com.example.quiz_application.dtos.response.InstituteResponse;
+import com.example.quiz_application.dtos.response.SchoolValidationResponse;
+import com.example.quiz_application.exceptions.InstituteDoesNotExistException;
+import com.example.quiz_application.exceptions.InvalidRegistrationDetails;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+
+@Service
+public class AppInstituteService implements InstituteService{
+    @Autowired
+    private SchoolValidationService validationService;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private InstitutionRepository repository;
+    @Override
+    public RegisterResponse register(InstitutionRegistrationRequest request) throws InvalidRegistrationDetails {
+        SchoolValidationResponse response = validationService.validateRC(request.getRegistrationNumber());
+        Institution institution = new Institution(response);
+        Institution savedInstitution = repository.save(institution);
+        RegisterResponse registerResponse = new RegisterResponse();
+        registerResponse.setId(savedInstitution.getId());
+        registerResponse.setMessage("Registration went successfully");
+        return registerResponse;
+    }
+
+    @Override
+    public List<InstituteResponse> findAllInstitute() {
+       return repository.findAll().stream().map(InstituteResponse::new).toList();
+    }
+
+    @Override
+    public AddTeacherResponse addTeachers(AddTeacherRequest request) throws InstituteDoesNotExistException {
+        InstituteResponse response = new InstituteResponse(findInstitute(request.getId()));
+        emailService.sendBulkEmail(request.getTeacher_emails(), response);
+        AddTeacherResponse addTeacherResponse = new AddTeacherResponse();
+        return null;
+    }
+
+    private Institution findInstitute(Long id) throws InstituteDoesNotExistException {
+        return repository.findById(id).orElseThrow(() ->
+                new InstituteDoesNotExistException("Institute does not exist with the given details "+id));
+    }
+
+
+}

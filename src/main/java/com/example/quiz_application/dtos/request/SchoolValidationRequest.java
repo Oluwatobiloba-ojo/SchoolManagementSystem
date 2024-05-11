@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class InstitutionRegistrationRequest {
-    private String registrationNumber;
+public class SchoolValidationRequest {
+    private String search_term;
 }
