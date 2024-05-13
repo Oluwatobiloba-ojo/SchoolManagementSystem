@@ -1,6 +1,7 @@
 package com.example.quiz_application.util;
 
 
+import com.example.quiz_application.dtos.request.StudentInvitationRequest;
 import com.example.quiz_application.dtos.request.TeacherInvitationRequestMessage;
 
 
@@ -31,6 +32,32 @@ public class MessageDetails {
                    <p>%s<p>
                    </div>
                    </body>
-                   """,request.getInstituteName(), request.getTeacherEmail(), request.getLink());
+                   """,request.getInstituteName(), request.getTeacherEmail(), request.getInstituteAddress());
+    }
+    public static String STUDENT_INVITATION_EMAIL(StudentInvitationRequest request){
+           return  String.format("""
+                   <!DOCTYPE>
+                   <head>
+                   <title>Quiz Application</title>
+                   </head>
+                   <body>
+                   <div>
+                   <h1>Invitation to Join The Quiz Application Platform For %s As A Student On Their Platform</h1>
+                   <p>Hello %s</p>
+                   <p>We are thrilled to invite you to join our quiz application! With our platform, you can access a wide range of quizzes on various subjects, test your knowledge, and track your progress.</p>
+                                 
+                   <p>As a Student You can: </p>
+                   <ul style="text-align: left;">
+                                            <li>Take quizzes assigned by your teachers</li>
+                                            <li>Review quiz results and feedback</li>
+                                            <li>Explore quizzes from the library</li>
+                                        </ul>
+                   <p>To get started, simply click on the link below to create your student account:</p>
+                   <button style="background-color: blue; color: white">Click Ooo</button>
+                   <p>If you have any questions or need assistance, feel free to reach out to our support team at [Your Support Email]. We look forward to having you on board!</p>            
+                   <p>%s<p>
+                   </div>
+                   </body>
+                   """,request.getInstituteName(), request.getStudentEmail(), request.getInstituteAddress());
     }
 }

@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TeacherInvitationRequestMessage {
-    private String teacherEmail;
+public class StudentInvitationRequest {
+    private String studentEmail;
     private String instituteName;
     private String instituteAddress;
     private String instituteId;

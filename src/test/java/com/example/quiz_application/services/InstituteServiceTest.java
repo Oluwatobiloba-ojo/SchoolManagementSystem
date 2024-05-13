@@ -1,8 +1,11 @@
 package com.example.quiz_application.services;
 
+import com.example.quiz_application.dtos.request.AddStudentRequest;
 import com.example.quiz_application.dtos.request.AddTeacherRequest;
 import com.example.quiz_application.dtos.request.InstitutionRegistrationRequest;
+import com.example.quiz_application.dtos.response.AddStudentResponse;
 import com.example.quiz_application.dtos.response.AddTeacherResponse;
+import com.example.quiz_application.dtos.response.RegisterResponse;
 import com.example.quiz_application.exceptions.InstituteDoesNotExistException;
 import com.example.quiz_application.exceptions.InvalidRegistrationDetails;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +17,7 @@ import org.springframework.test.context.jdbc.Sql;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
@@ -48,6 +52,15 @@ class InstituteServiceTest {
         request.setTeacher_emails(List.of("chibuzor@gmail.com", "ojot630@gmail.com"));
         AddTeacherResponse response = instituteService.addTeachers(request);
         assertThat(response).isNotNull();
+    }
+    @Test
+    @Sql("/scripts/insert.sql")
+    public void testThatInstituteCanSendAnInviteToStudentOfTheirSchoolToJoin() throws InstituteDoesNotExistException {
+        AddStudentRequest request = new AddStudentRequest();
+        request.setInstitutionId(200L);
+        request.setStudentEmails(List.of("opeoluwaagnes@gmail.com", "deborahdelighted5@gmail.com", "ooluwatobi825@gmail.com"));
+        AddStudentResponse response = instituteService.addStudents(request);
+        assertNotNull(response);
     }
 
 
