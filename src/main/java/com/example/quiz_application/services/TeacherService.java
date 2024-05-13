@@ -1,10 +1,17 @@
 package com.example.quiz_application.services;
 
-import com.example.quiz_application.dtos.response.TeacherResponse;
+import com.example.quiz_application.data.model.Teacher;
+import com.example.quiz_application.dtos.request.AddTeacherToSchoolRequest;
+import com.example.quiz_application.dtos.request.CompleteTeacherRegistration;
+import com.example.quiz_application.dtos.response.CompleteTeacherRegistrationResponse;
+import com.example.quiz_application.exceptions.*;
 
-import java.util.Collection;
-import java.util.List;
+import java.io.IOException;
 
 public interface TeacherService {
-    List<TeacherResponse> findTeachersBy(Long instituteId);
+    CompleteTeacherRegistrationResponse completeRegistration(CompleteTeacherRegistration completeTeacherRegistration) throws InvalidPasswordException, InstituteDoesNotExistException, InvalidTokenException, IOException;
+    Teacher findTeacher(String email) throws TeacherDoesNotExistException;
+    AddTeacherToSchoolResponse addTeacherToSchool(AddTeacherToSchoolRequest request) throws InstituteDoesNotExistException, TeacherDoesNotExistException, InstitutionAlreadyExist;
+
+//    List<TeacherResponse> findTeachersBy(Long instituteId);
 }

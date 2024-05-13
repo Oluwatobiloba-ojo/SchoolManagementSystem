@@ -31,7 +31,7 @@ public class AppInstituteService implements InstituteService{
         Institution savedInstitution = repository.save(institution);
         RegisterResponse registerResponse = new RegisterResponse();
         registerResponse.setId(savedInstitution.getId());
-        registerResponse.setMessage(REGISTRATION_SUCCESSFULL);
+        registerResponse.setMessage(REGISTRATION_SUCCESSFULLY);
         return registerResponse;
     }
 
@@ -57,8 +57,8 @@ public class AppInstituteService implements InstituteService{
         response.setMessage(INVITE_STUDENT_RESPONSE);
         return response;
     }
-
-    private Institution findInstitute(Long id) throws InstituteDoesNotExistException {
+    @Override
+    public Institution findInstitute(Long id) throws InstituteDoesNotExistException {
         return repository.findById(id).orElseThrow(() ->
                 new InstituteDoesNotExistException(String.format(INVALID_INSTITUTE_MESSAGE, id)));
     }
