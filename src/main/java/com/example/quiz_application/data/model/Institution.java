@@ -8,11 +8,13 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Institution {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +24,7 @@ public class Institution {
     private String rc_number;
     private String location;
     private String status;
+
 
     public Institution(SchoolValidationResponse response) {
         this.name = response.getCompany_name();

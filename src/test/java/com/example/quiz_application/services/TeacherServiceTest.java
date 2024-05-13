@@ -2,12 +2,11 @@ package com.example.quiz_application.services;
 
 import com.example.quiz_application.dtos.request.AddTeacherToSchoolRequest;
 import com.example.quiz_application.dtos.request.CompleteTeacherRegistration;
+import com.example.quiz_application.dtos.request.RemoveInstituteFromTeacherRequest;
 import com.example.quiz_application.dtos.request.TeacherCreateTokenRequest;
 import com.example.quiz_application.dtos.response.CompleteTeacherRegistrationResponse;
-import com.example.quiz_application.exceptions.InstituteDoesNotExistException;
-import com.example.quiz_application.exceptions.InstitutionAlreadyExist;
-import com.example.quiz_application.exceptions.InvalidPasswordException;
-import com.example.quiz_application.exceptions.InvalidTokenException;
+import com.example.quiz_application.dtos.response.RemoveInstituteFromTeacherResponse;
+import com.example.quiz_application.exceptions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,6 +47,18 @@ class TeacherServiceTest {
         request.setEmail("ojot630@gmail.com");
         request.setInstituteId(200L);
         assertThrows(InstitutionAlreadyExist.class, () -> teacherService.addTeacherToSchool(request));
+    }
+
+    @Test
+    @Sql("/scripts/insert.sql")
+    public void testThatTeachersCanRemoveInstitutionFromTheirListOfInstitution() throws TeacherDoesNotExistException, InstitutionDoesNotBelongToTeacherException, InstituteDoesNotExistException, InstitutionAlreadyExist {
+        RemoveInstituteFromTeacherRequest request = new RemoveInstituteFromTeacherRequest();
+        request.setEmail("ojot630@gmail.com");
+        request.setInstituteId(200L);
+        long numbers_of_institute = teacherService.findTeacher(request.getEmail()).getInstitutions().size();
+        RemoveInstituteFromTeacherResponse response = teacherService.removeInstitute(request);
+        assertThat(response).isNotNull();
+        assertThat(numbers_of_institute-1).isEqualTo(teacherService.findTeacher(request.getEmail()).getInstitutions().size());
     }
 
 }
