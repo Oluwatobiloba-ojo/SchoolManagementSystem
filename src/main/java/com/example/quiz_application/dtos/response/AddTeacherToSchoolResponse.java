@@ -1,4 +1,4 @@
-package com.example.quiz_application.services;
+package com.example.quiz_application.dtos.response;
 
 import com.example.quiz_application.data.model.Teacher;
 import lombok.Getter;

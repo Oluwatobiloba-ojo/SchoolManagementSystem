@@ -1,8 +1,8 @@
 package com.example.quiz_application.services;
 
 import com.auth0.jwt.JWT;
-import com.example.quiz_application.dtos.request.TeacherCreateTokenRequest;
-import com.example.quiz_application.dtos.request.TeacherDecodeToken;
+import com.example.quiz_application.dtos.request.CreateTokenRequest;
+import com.example.quiz_application.dtos.request.DecodeToken;
 import com.example.quiz_application.exceptions.InvalidTokenException;
 import com.example.quiz_application.util.AppUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +25,7 @@ public class AppJwtService implements JwtService{
     @Value("${oauth.api.key}")
     private String secretKey;
     @Override
-    public String createToken(TeacherCreateTokenRequest request) {
+    public String createToken(CreateTokenRequest request) {
         return JWT.create()
                 .withIssuer("quiz-application")
                 .withSubject("access_token")
@@ -36,13 +36,13 @@ public class AppJwtService implements JwtService{
     }
 
     @Override
-    public TeacherDecodeToken decode(String token) throws InvalidTokenException, IOException {
+    public DecodeToken decode(String token) throws InvalidTokenException, IOException {
         verifyJwtToken(token);
         ObjectMapper mapper = new ObjectMapper();
         Decoder decoder = Base64.getUrlDecoder();
         String[] tokens = token.split("\\.");
         String payload = new String(decoder.decode(tokens[1]));
-        return mapper.readValue(payload.getBytes(), TeacherDecodeToken.class);
+        return mapper.readValue(payload.getBytes(), DecodeToken.class);
     }
 
     @Override

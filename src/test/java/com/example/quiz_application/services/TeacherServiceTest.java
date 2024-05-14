@@ -1,9 +1,6 @@
 package com.example.quiz_application.services;
 
-import com.example.quiz_application.dtos.request.AddTeacherToSchoolRequest;
-import com.example.quiz_application.dtos.request.CompleteTeacherRegistration;
-import com.example.quiz_application.dtos.request.RemoveInstituteFromTeacherRequest;
-import com.example.quiz_application.dtos.request.TeacherCreateTokenRequest;
+import com.example.quiz_application.dtos.request.*;
 import com.example.quiz_application.dtos.response.CompleteTeacherRegistrationResponse;
 import com.example.quiz_application.dtos.response.RemoveInstituteFromTeacherResponse;
 import com.example.quiz_application.exceptions.*;
@@ -26,8 +23,8 @@ class TeacherServiceTest {
 
     @Test
     @Sql("/scripts/insert.sql")
-    public void testThatTeacherWhenSeeNotificationCanInitializeTheEndpointByAddingSomeDetails() throws InstituteDoesNotExistException, InvalidPasswordException, InvalidTokenException, IOException {
-        TeacherCreateTokenRequest request = new TeacherCreateTokenRequest();
+    public void testThatTeacherWhenSeeEmailCanInitializeTheEndpointByAddingSomeDetails() throws InstituteDoesNotExistException, InvalidPasswordException, InvalidTokenException, IOException {
+        CreateTokenRequest request = new CreateTokenRequest();
         request.setEmail("opeoluwaagnes@gmail.com");
         request.setInstituteId(200L);
         String token = jwtService.createToken(request);
@@ -60,5 +57,5 @@ class TeacherServiceTest {
         assertThat(response).isNotNull();
         assertThat(numbers_of_institute-1).isEqualTo(teacherService.findTeacher(request.getEmail()).getInstitutions().size());
     }
-
 }
+

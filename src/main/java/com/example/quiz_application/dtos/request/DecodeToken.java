@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class TeacherDecodeToken {
+public class DecodeToken {
     private String email;
     private String iss;
     private String sub;

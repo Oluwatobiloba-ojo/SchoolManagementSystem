@@ -4,6 +4,7 @@ import com.example.quiz_application.data.model.Teacher;
 import com.example.quiz_application.dtos.request.AddTeacherToSchoolRequest;
 import com.example.quiz_application.dtos.request.CompleteTeacherRegistration;
 import com.example.quiz_application.dtos.request.RemoveInstituteFromTeacherRequest;
+import com.example.quiz_application.dtos.response.AddTeacherToSchoolResponse;
 import com.example.quiz_application.dtos.response.CompleteTeacherRegistrationResponse;
 import com.example.quiz_application.dtos.response.RemoveInstituteFromTeacherResponse;
 import com.example.quiz_application.exceptions.*;
