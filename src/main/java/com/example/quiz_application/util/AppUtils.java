@@ -18,4 +18,8 @@ public class AppUtils {
     public static final String INSTITUTE_REMOVE_MESSAGE = "Institute have been removed";
     public static final String STUDENT_INVALID_EMAIL = "Email is not valid";
     public static final String STUDENT_ALREADY_TAKEN = "Student Already In an institution";
+    public static final String FILE_EXCEPTION_MESSAGE = "File format allowed is xlss";
+    public static final String QUIZ_UPLOADED_SUCCESSFULLY = "Quiz Has Been Uploaded Successfully";
+    public static final String FILE_INPUT_STREAM_NOT_FOUND = "The file input stream was not found";
+
 }

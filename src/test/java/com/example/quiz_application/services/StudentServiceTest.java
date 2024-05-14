@@ -2,6 +2,7 @@ package com.example.quiz_application.services;
 
 import com.example.quiz_application.dtos.request.CompleteStudentRegistrationRequest;
 import com.example.quiz_application.dtos.request.CreateTokenRequest;
+import com.example.quiz_application.dtos.request.RegisterStudentRequest;
 import com.example.quiz_application.dtos.response.CompleteStudentRegistrationResponse;
 import com.example.quiz_application.dtos.response.RegisterStudentResponse;
 import com.example.quiz_application.exceptions.InstituteDoesNotExistException;

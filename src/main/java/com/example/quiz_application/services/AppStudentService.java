@@ -5,6 +5,7 @@ import com.example.quiz_application.data.model.Student;
 import com.example.quiz_application.data.repository.StudentRepository;
 import com.example.quiz_application.dtos.request.CompleteStudentRegistrationRequest;
 import com.example.quiz_application.dtos.request.DecodeToken;
+import com.example.quiz_application.dtos.request.RegisterStudentRequest;
 import com.example.quiz_application.dtos.response.CompleteStudentRegistrationResponse;
 import com.example.quiz_application.dtos.response.RegisterStudentResponse;
 import com.example.quiz_application.dtos.response.StudentResponse;
