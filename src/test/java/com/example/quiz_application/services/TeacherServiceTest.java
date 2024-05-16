@@ -32,7 +32,7 @@ class TeacherServiceTest {
     public void testThatTeacherWhenSeeEmailCanInitializeTheEndpointByAddingSomeDetails() throws InstituteDoesNotExistException, InvalidPasswordException, InvalidTokenException, IOException {
         CreateTokenRequest request = new CreateTokenRequest();
         request.setEmail("opeoluwaagnes@gmail.com");
-        request.setInstituteId(200L);
+        request.setInstituteId(202L);
         String token = jwtService.createToken(request);
         CompleteTeacherRegistration completeTeacherRegistration = new CompleteTeacherRegistration();
         completeTeacherRegistration.setPassword("Olawale1234");
@@ -79,11 +79,25 @@ class TeacherServiceTest {
     @Sql("/scripts/insert.sql")
     public void testThatTeacherCanUploadAFileWhichExcelWontThrowException() throws IOException, FileFormatException, TeacherDoesNotExistException {
         UploadQuizRequest request = new UploadQuizRequest();
-        File file = new File("C:\\Users\\User\\Downloads\\rapid2.xlsm");
+        File file = new File("C:\\Users\\User\\Downloads\\rapid (1).xls");
         request.setFile(new MockMultipartFile("form", null, Files.probeContentType(Path.of(file.getPath())), new FileInputStream(file)));
         request.setTitle("Wrong quiz");
         request.setEmail("ojot630@gmail.com");
         request.setDescription("It is a docx file oooo");
+        int numbers_of_quiz = teacherService.getTeacherQuiz(request.getEmail()).size();
+        UploadQuizResponse response = teacherService.uploadQuiz(request);
+        assertThat(numbers_of_quiz+1).isEqualTo(teacherService.getTeacherQuiz(request.getEmail()).size());
+        assertThat(response).isNotNull();
+    }
+    @Test
+    @Sql("/scripts/insert.sql")
+    public void testThatTeacherCanUploadAnotherFileWhichExcelWontThrowException() throws IOException, FileFormatException, TeacherDoesNotExistException {
+        UploadQuizRequest request = new UploadQuizRequest();
+        File file = new File("C:\\Users\\User\\Downloads\\rapid.xls");
+        request.setFile(new MockMultipartFile("form", null, Files.probeContentType(Path.of(file.getPath())), new FileInputStream(file)));
+        request.setTitle("Test Quiz");
+        request.setEmail("ojot630@gmail.com");
+        request.setDescription("It is a quiz for today");
         int numbers_of_quiz = teacherService.getTeacherQuiz(request.getEmail()).size();
         UploadQuizResponse response = teacherService.uploadQuiz(request);
         assertThat(numbers_of_quiz+1).isEqualTo(teacherService.getTeacherQuiz(request.getEmail()).size());

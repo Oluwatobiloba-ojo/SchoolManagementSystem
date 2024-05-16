@@ -1,13 +1,18 @@
 package com.example.quiz_application.util;
 
 
+import com.example.quiz_application.dtos.request.CreateTokenRequest;
 import com.example.quiz_application.dtos.request.StudentInvitationRequest;
 import com.example.quiz_application.dtos.request.TeacherInvitationRequestMessage;
+import com.example.quiz_application.services.AppJwtService;
+
+import static com.example.quiz_application.util.AppUtils.TEACHER_REGISTRATION_URL;
 
 
 public class MessageDetails {
 
     public static String TEACHER_INVITATION_EMAIL(TeacherInvitationRequestMessage request){
+        String teacherUrl = TEACHER_REGISTRATION_URL+""+"/token="+request.getToken();
            return  String.format("""
                    <!DOCTYPE>
                    <head>
@@ -27,14 +32,15 @@ public class MessageDetails {
                               <li>Access a library of pre-made quizzes on various subjects</li>
                    </ul>
                    <p>To get started, simply click on the link below to create your teacher account:</p>
-                   <button style="background-color: blue; color: white">Click Ooo</button>
+                   <a href="%s" target="_blank"><button>Click OOOOO</button></a>
                    <p>If you have any questions or need assistance, feel free to reach out to our support team at [Your Support Email]. We look forward to having you on board!</p>            
                    <p>%s<p>
                    </div>
                    </body>
-                   """,request.getInstituteName(), request.getTeacherEmail(), request.getInstituteAddress());
+                   """,request.getInstituteName(), request.getTeacherEmail(), teacherUrl, request.getInstituteAddress());
     }
     public static String STUDENT_INVITATION_EMAIL(StudentInvitationRequest request){
+        String studentUrl = AppUtils.STUDENT_REGISTRATION_LINK+"token="+request.getToken();
            return  String.format("""
                    <!DOCTYPE>
                    <head>
@@ -53,11 +59,11 @@ public class MessageDetails {
                                             <li>Explore quizzes from the library</li>
                                         </ul>
                    <p>To get started, simply click on the link below to create your student account:</p>
-                   <button style="background-color: blue; color: white">Click Ooo</button>
+                   <a href="%s" target="_blank"><button>Click OOOOO</button></a>
                    <p>If you have any questions or need assistance, feel free to reach out to our support team at [Your Support Email]. We look forward to having you on board!</p>            
                    <p>%s<p>
                    </div>
                    </body>
-                   """,request.getInstituteName(), request.getStudentEmail(), request.getInstituteAddress());
+                   """,request.getInstituteName(), request.getStudentEmail(), studentUrl, request.getInstituteAddress());
     }
 }

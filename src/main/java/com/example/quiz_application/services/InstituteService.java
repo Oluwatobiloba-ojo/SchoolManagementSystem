@@ -18,6 +18,6 @@ public interface InstituteService {
     List<InstituteResponse> findAllInstitute();
     AddTeacherResponse addTeachers(AddTeacherRequest request) throws InstituteDoesNotExistException;
     AddStudentResponse addStudents(AddStudentRequest request) throws InstituteDoesNotExistException;
-
     Institution findInstitute(Long instituteId) throws InstituteDoesNotExistException;
+
 }

@@ -11,11 +11,13 @@ public class InstituteResponse {
     private String email;
     private String status;
     private String address;
+    private Long id;
 
     public InstituteResponse(Institution institution) {
         name = institution.getName();
         email = institution.getEmail();
         address = institution.getLocation();
+        id = institution.getId();
         status = institution.getStatus();
     }
 }

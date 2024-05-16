@@ -21,5 +21,6 @@ public class AppUtils {
     public static final String FILE_EXCEPTION_MESSAGE = "File format allowed is xlss";
     public static final String QUIZ_UPLOADED_SUCCESSFULLY = "Quiz Has Been Uploaded Successfully";
     public static final String FILE_INPUT_STREAM_NOT_FOUND = "The file input stream was not found";
-
+    public static final String TEACHER_REGISTRATION_URL = "localhost:8080/api/v1/teacher";
+    public static final String STUDENT_REGISTRATION_LINK = "localhost:8080/api/v1/student";
 }

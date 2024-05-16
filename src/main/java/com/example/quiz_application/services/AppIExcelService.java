@@ -28,6 +28,7 @@ public class AppIExcelService implements IExcelService{
 
     @Override
     public void validate(MultipartFile file) throws FileFormatException {
+        System.out.println(file.getContentType());
         if (!Objects.equals(file.getContentType(), beanConfig.file_content_type))
             throw new FileFormatException(FILE_EXCEPTION_MESSAGE);
     }
@@ -48,22 +49,7 @@ public class AppIExcelService implements IExcelService{
                 int cellIndex = 0;
                 Quiz_Question question = new Quiz_Question();
 
-                while (cellIterator.hasNext()){
-                    Cell cell = cellIterator.next();
-                    switch (cellIndex){
-                        case 0 -> question.setQuiz(quiz);
-                        case 1 -> question.setQuestion(cell.getStringCellValue());
-                        case 2 -> question.setOptionA(cell.getStringCellValue());
-                        case 3 -> question.setOptionB(cell.getStringCellValue());
-                        case 4 -> question.setOptionC(cell.getStringCellValue());
-                        case 5 -> question.setOptionD(cell.getStringCellValue());
-                        case 6 -> question.setOptionE(cell.getStringCellValue());
-                        case 7 -> question.setOptionF(cell.getStringCellValue());
-                        case 8 -> question.setAnswer(cell.getStringCellValue());
-                        default -> {}
-                    }
-                    cellIndex++;
-                }
+                convertCellValueToQuestion(quiz, cellIterator, cellIndex, question);
                 if (question.getQuestion().isEmpty()) break;
                 questions.add(question);
                 rowIndex++;
@@ -72,6 +58,25 @@ public class AppIExcelService implements IExcelService{
             throw new RuntimeException(FILE_INPUT_STREAM_NOT_FOUND);
         }
         return questions;
+    }
+
+    private static void convertCellValueToQuestion(Quiz quiz, Iterator<Cell> cellIterator, int cellIndex, Quiz_Question question) {
+        while (cellIterator.hasNext()){
+            Cell cell = cellIterator.next();
+            switch (cellIndex){
+                case 0 -> question.setQuiz(quiz);
+                case 1 -> question.setQuestion(cell.getStringCellValue());
+                case 2 -> question.setOptionA(cell.getStringCellValue());
+                case 3 -> question.setOptionB(cell.getStringCellValue());
+                case 4 -> question.setOptionC(cell.getStringCellValue());
+                case 5 -> question.setOptionD(cell.getStringCellValue());
+                case 6 -> question.setOptionE(cell.getStringCellValue());
+                case 7 -> question.setOptionF(cell.getStringCellValue());
+                case 8 -> question.setAnswer(cell.getStringCellValue());
+                default -> {}
+            }
+            cellIndex++;
+        }
     }
 }
 

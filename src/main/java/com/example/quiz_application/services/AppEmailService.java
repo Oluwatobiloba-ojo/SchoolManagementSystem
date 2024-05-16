@@ -4,6 +4,7 @@ import com.example.quiz_application.dtos.request.*;
 import com.example.quiz_application.dtos.response.BrevoMailResponse;
 import com.example.quiz_application.dtos.response.InstituteResponse;
 import com.example.quiz_application.util.MessageDetails;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +19,8 @@ import static com.example.quiz_application.util.AppUtils.*;
 
 @Service
 public class AppEmailService implements EmailService{
-
+    @Autowired
+    private JwtService jwtService;
     @Value("${brevo.api.url}")
     private String url;
     @Value("${brevo.api.key}")
@@ -41,14 +43,14 @@ public class AppEmailService implements EmailService{
         return new HttpEntity<>(brevoMailRequest, headers);
     }
 
-    private static BrevoMailRequest createBrevoTeacherRequest(InstituteResponse response, String email, String receiverCategory) {
+    private  BrevoMailRequest createBrevoTeacherRequest(InstituteResponse response, String email, String receiverCategory) {
         BrevoMailRequest brevoMailRequest = new BrevoMailRequest();
         brevoMailRequest.setSender(new Sender(response.getName(), response.getEmail()));
         setBrevoMailRequest(response, email, receiverCategory, brevoMailRequest);
         return brevoMailRequest;
     }
 
-    private static void setBrevoMailRequest(InstituteResponse response, String email, String receiverCategory, BrevoMailRequest brevoMailRequest) {
+    private void setBrevoMailRequest(InstituteResponse response, String email, String receiverCategory, BrevoMailRequest brevoMailRequest) {
         if (receiverCategory.equals(TEACHER)) {
             brevoMailRequest.setSubject(TEACHER_INVITE_SUBJECT);
             TeacherInvitationRequestMessage requestMessage = getContent(response, email);
@@ -65,21 +67,22 @@ public class AppEmailService implements EmailService{
         }
     }
 
-    private static StudentInvitationRequest getStudentContent(InstituteResponse response, String email) {
+    private StudentInvitationRequest getStudentContent(InstituteResponse response, String email) {
         StudentInvitationRequest request = new StudentInvitationRequest();
         request.setStudentEmail(email);
         request.setInstituteAddress(response.getAddress());
         request.setInstituteName(response.getName());
-        request.setInstituteId(request.getInstituteId());
+        request.setToken(jwtService.createToken(new CreateTokenRequest(email, response.getId())));
         return request;
     }
 
 
-    private static TeacherInvitationRequestMessage getContent(InstituteResponse response, String email) {
+    private TeacherInvitationRequestMessage getContent(InstituteResponse response, String email) {
         TeacherInvitationRequestMessage requestMessage = new TeacherInvitationRequestMessage();
         requestMessage.setTeacherEmail(email);
         requestMessage.setInstituteName(response.getName());
         requestMessage.setInstituteAddress(response.getAddress());
+        requestMessage.setToken(jwtService.createToken(new CreateTokenRequest(email, response.getId())));
         return requestMessage;
     }
 

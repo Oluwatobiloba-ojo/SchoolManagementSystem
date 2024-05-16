@@ -10,4 +10,5 @@ public class TeacherInvitationRequestMessage {
     private String instituteName;
     private String instituteAddress;
     private String instituteId;
+    private String token;
 }
