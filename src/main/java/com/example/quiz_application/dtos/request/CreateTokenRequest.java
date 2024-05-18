@@ -11,8 +11,8 @@ public class CreateTokenRequest {
     private String email;
     private Long instituteId;
 
-    public CreateTokenRequest(String studentEmail, Long instituteId) {
-        this.email = studentEmail;
+    public CreateTokenRequest(String email, Long instituteId) {
+        this.email = email;
         this.instituteId = instituteId;
     }
 

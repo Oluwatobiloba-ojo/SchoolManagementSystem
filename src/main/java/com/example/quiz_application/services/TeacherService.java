@@ -1,5 +1,6 @@
 package com.example.quiz_application.services;
 
+import com.example.quiz_application.data.model.Institution;
 import com.example.quiz_application.data.model.Teacher;
 import com.example.quiz_application.dtos.request.AddTeacherToSchoolRequest;
 import com.example.quiz_application.dtos.request.CompleteTeacherRegistration;
@@ -18,6 +19,7 @@ public interface TeacherService {
     RemoveInstituteFromTeacherResponse removeInstitute(RemoveInstituteFromTeacherRequest request) throws TeacherDoesNotExistException, InstituteDoesNotExistException, InstitutionAlreadyExist, InstitutionDoesNotBelongToTeacherException;
     UploadQuizResponse uploadQuiz(UploadQuizRequest request) throws FileFormatException, TeacherDoesNotExistException, IOException;
     List<QuizResponse> getTeacherQuiz(String email) throws TeacherDoesNotExistException;
+    List<Institution> getInstitute(String teacherEmail) throws TeacherDoesNotExistException;
 
 //    List<TeacherResponse> findTeachersBy(Long instituteId);
 }

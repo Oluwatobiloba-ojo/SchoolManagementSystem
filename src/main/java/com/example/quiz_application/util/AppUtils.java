@@ -14,7 +14,7 @@ public class AppUtils {
     public static final String INVALID_TOKEN = "Token is invalid";
     public static final String TEACHER_DOES_NOT_EXIST = "Teacher does not exist";
     public static final String INSTITUTION_ALREADY_EXIST = "Institution already in the teacher list";
-    public static final String TEACHER_ADDED_TO_INSTITUTE = "Teacher already added to institute";
+    public static final String TEACHER_REMOVE_FROM_INSTITUTE = "Institute has been remove from the teacher list of institute";
     public static final String INSTITUTE_REMOVE_MESSAGE = "Institute have been removed";
     public static final String STUDENT_INVALID_EMAIL = "Email is not valid";
     public static final String STUDENT_ALREADY_TAKEN = "Student Already In an institution";
@@ -23,4 +23,5 @@ public class AppUtils {
     public static final String FILE_INPUT_STREAM_NOT_FOUND = "The file input stream was not found";
     public static final String TEACHER_REGISTRATION_URL = "localhost:8080/api/v1/teacher";
     public static final String STUDENT_REGISTRATION_LINK = "localhost:8080/api/v1/student";
+    public static final String TEACHER_ADDED_TO_INSTITUTE = "Teacher added to institute";
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.example.quiz_application.util.AppUtils.*;
@@ -37,10 +38,10 @@ public class AppTeacherService implements TeacherService{
         teacher.setName(completeTeacherRegistration.getName());
         teacher.setPassword(completeTeacherRegistration.getConfirmPassword());
         teacher.setEmail(decodeToken.getEmail());
-        teacher.getInstitutions().add(institution);
+        teacher.setInstitutions(Set.of(institution));
         Teacher savedTeacher = repository.save(teacher);
         CompleteTeacherRegistrationResponse response = new CompleteTeacherRegistrationResponse();
-        response.setMessage(AppUtils.TEACHER_COMPLETE_REGISTRATION);
+        response.setMessage(TEACHER_COMPLETE_REGISTRATION);
         response.setTeacher(savedTeacher);
         return response;
     }
@@ -59,7 +60,7 @@ public class AppTeacherService implements TeacherService{
         teacher.getInstitutions().add(institution);
         repository.save(teacher);
         AddTeacherToSchoolResponse response = new AddTeacherToSchoolResponse();
-        response.setMessage(TEACHER_ADDED_TO_INSTITUTE);
+        response.setMessage(AppUtils.TEACHER_ADDED_TO_INSTITUTE);
         response.setTeacher(teacher);
         return response;
     }
@@ -69,12 +70,11 @@ public class AppTeacherService implements TeacherService{
         Teacher teacher = findTeacher(request.getEmail());
         Institution institution = instituteService.findInstitute(request.getInstituteId());
         if(!checkIfInstituteExist(teacher, institution)) throw new InstitutionDoesNotBelongToTeacherException(INSTITUTE_REMOVE_MESSAGE);
-        teacher.setInstitutions(teacher.getInstitutions().stream().filter(
-                institution1 -> institution1.equals(institution)).collect(Collectors.toSet()));
-        repository.save(teacher);
+        teacher.getInstitutions().remove(institution);
+        Teacher savedTeacher = repository.save(teacher);
         RemoveInstituteFromTeacherResponse response = new RemoveInstituteFromTeacherResponse();
-        response.setMessage(TEACHER_ADDED_TO_INSTITUTE);
-        response.setData(institution);
+        response.setMessage(TEACHER_REMOVE_FROM_INSTITUTE);
+        response.setInstitutions(savedTeacher.getInstitutions());
         return response;
     }
 
@@ -92,6 +92,12 @@ public class AppTeacherService implements TeacherService{
     @Override
     public List<QuizResponse> getTeacherQuiz(String email) throws TeacherDoesNotExistException {
         return quizService.findAllQuizBelonging(findTeacher(email));
+    }
+
+    @Override
+    public List<Institution> getInstitute(String teacherEmail) throws TeacherDoesNotExistException {
+        Teacher teacher = findTeacher(teacherEmail);
+        return teacher.getInstitutions().stream().toList();
     }
 
     private static boolean checkIfInstituteExist(Teacher teacher, Institution institution) {

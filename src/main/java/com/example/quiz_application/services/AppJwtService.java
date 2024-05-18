@@ -1,24 +1,22 @@
 package com.example.quiz_application.services;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.quiz_application.dtos.request.CreateTokenRequest;
 import com.example.quiz_application.dtos.request.DecodeToken;
 import com.example.quiz_application.exceptions.InvalidTokenException;
-import com.example.quiz_application.util.AppUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 
-import static com.auth0.jwt.algorithms.Algorithm.HMAC256;
+import static com.example.quiz_application.util.AppUtils.INVALID_TOKEN;
 
 @Service
 public class AppJwtService implements JwtService{
@@ -32,7 +30,7 @@ public class AppJwtService implements JwtService{
                 .withClaim("email", request.getEmail())
                 .withClaim("instituteId", request.getInstituteId())
                 .withExpiresAt(Instant.now().plusSeconds(20*86400))
-                .sign(HMAC256(secretKey));
+                .sign(Algorithm.HMAC256(secretKey));
     }
 
     @Override
@@ -47,15 +45,14 @@ public class AppJwtService implements JwtService{
 
     @Override
     public void verifyJwtToken(String token) throws InvalidTokenException {
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), signatureAlgorithm.getJcaName());
-        JwtParser jwtParser = Jwts.parser()
-                .verifyWith(secretKeySpec)
-                .build();
         try {
-            jwtParser.parse(token);
-        }catch (Exception e){
-            throw new InvalidTokenException(AppUtils.INVALID_TOKEN);
+            Algorithm signatureAlgorithm = Algorithm.HMAC256(secretKey);
+            JWTVerifier jwtVerifier = JWT.require(signatureAlgorithm)
+                    .withIssuer("quiz-application")
+                    .build();
+            jwtVerifier.verify(token);
+        }catch (JWTVerificationException e){
+            throw new InvalidTokenException(INVALID_TOKEN);
         }
     }
 }

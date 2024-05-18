@@ -20,6 +20,6 @@ public class Teacher {
     private String name;
     private String password;
     private String email;
-    @OneToMany(cascade = {MERGE}, fetch = EAGER)
+    @ManyToMany(cascade = {MERGE}, fetch = EAGER)
     private Set<Institution> institutions = new HashSet<>();
 }
