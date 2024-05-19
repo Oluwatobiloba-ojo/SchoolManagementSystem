@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 public class UploadQuizRequest {
     private String email;
-    private MultipartFile file;
     private String title;
     private String description;
 }

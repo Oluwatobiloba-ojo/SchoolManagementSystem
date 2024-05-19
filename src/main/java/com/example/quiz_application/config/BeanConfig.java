@@ -20,7 +20,6 @@ public class BeanConfig {
     @Value("${file.content.type}")
     public String file_content_type;
 
-
     @Bean
     public ModelMapper modelMapper(){
         return new ModelMapper();

@@ -5,16 +5,15 @@ import com.example.quiz_application.data.model.Teacher;
 import com.example.quiz_application.dtos.request.AddTeacherToSchoolRequest;
 import com.example.quiz_application.dtos.request.CompleteTeacherRegistration;
 import com.example.quiz_application.dtos.request.RemoveInstituteFromTeacherRequest;
-import com.example.quiz_application.dtos.response.AddTeacherToSchoolResponse;
-import com.example.quiz_application.dtos.response.CompleteTeacherRegistrationResponse;
-import com.example.quiz_application.dtos.response.QuizResponse;
-import com.example.quiz_application.dtos.response.RemoveInstituteFromTeacherResponse;
+import com.example.quiz_application.dtos.request.UploadQuizRequest;
+import com.example.quiz_application.dtos.response.*;
 import com.example.quiz_application.exceptions.*;
 import com.example.quiz_application.services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -57,5 +56,12 @@ public class TeacherInstituteController {
     @GetMapping("/quiz/{teacher_email}")
     public ResponseEntity<List<QuizResponse>> findQuiz(@PathVariable String teacher_email) throws TeacherDoesNotExistException {
         return new ResponseEntity<>(teacherService.getTeacherQuiz(teacher_email), HttpStatus.FOUND);
+    }
+
+    @PostMapping("/quiz")
+    public ResponseEntity<UploadQuizResponse> createQuiz(
+            @RequestBody UploadQuizRequest request,
+            @RequestParam("file") MultipartFile file) throws FileFormatException, TeacherDoesNotExistException, IOException {
+        return new ResponseEntity<>(teacherService.uploadQuiz(request, file), HttpStatus.OK);
     }
 }

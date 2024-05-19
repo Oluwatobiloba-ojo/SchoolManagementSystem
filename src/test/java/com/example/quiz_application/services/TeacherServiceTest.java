@@ -69,23 +69,23 @@ class TeacherServiceTest {
     public void testThatTeacherCanNotUploadAFileWhichIsNotExcelThrowsException() throws IOException {
         UploadQuizRequest request = new UploadQuizRequest();
         File file = new File("C:\\Users\\User\\Documents\\CHURCH FILES\\FORM.docx");
-        request.setFile(new MockMultipartFile("form", new FileInputStream(file)));
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("form", new FileInputStream(file));
         request.setTitle("Wrong quiz");
         request.setEmail("ojot630@gmail.com");
         request.setDescription("It is a docx file oooo");
-        assertThrows(FileFormatException.class, () -> teacherService.uploadQuiz(request));
+        assertThrows(FileFormatException.class, () -> teacherService.uploadQuiz(request, mockMultipartFile));
     }
     @Test
     @Sql("/scripts/insert.sql")
     public void testThatTeacherCanUploadAFileWhichExcelWontThrowException() throws IOException, FileFormatException, TeacherDoesNotExistException {
         UploadQuizRequest request = new UploadQuizRequest();
         File file = new File("C:\\Users\\User\\Downloads\\rapid (1).xls");
-        request.setFile(new MockMultipartFile("form", null, Files.probeContentType(Path.of(file.getPath())), new FileInputStream(file)));
+        MockMultipartFile file1 = new MockMultipartFile("form", null, Files.probeContentType(Path.of(file.getPath())), new FileInputStream(file));
         request.setTitle("Wrong quiz");
         request.setEmail("ojot630@gmail.com");
         request.setDescription("It is a docx file oooo");
         int numbers_of_quiz = teacherService.getTeacherQuiz(request.getEmail()).size();
-        UploadQuizResponse response = teacherService.uploadQuiz(request);
+        UploadQuizResponse response = teacherService.uploadQuiz(request, file1);
         assertThat(numbers_of_quiz+1).isEqualTo(teacherService.getTeacherQuiz(request.getEmail()).size());
         assertThat(response).isNotNull();
     }
@@ -94,12 +94,12 @@ class TeacherServiceTest {
     public void testThatTeacherCanUploadAnotherFileWhichExcelWontThrowException() throws IOException, FileFormatException, TeacherDoesNotExistException {
         UploadQuizRequest request = new UploadQuizRequest();
         File file = new File("C:\\Users\\User\\Downloads\\rapid.xls");
-        request.setFile(new MockMultipartFile("form", null, Files.probeContentType(Path.of(file.getPath())), new FileInputStream(file)));
+        MockMultipartFile file1 = new MockMultipartFile("form", null, Files.probeContentType(Path.of(file.getPath())), new FileInputStream(file));
         request.setTitle("Test Quiz");
         request.setEmail("ojot630@gmail.com");
         request.setDescription("It is a quiz for today");
         int numbers_of_quiz = teacherService.getTeacherQuiz(request.getEmail()).size();
-        UploadQuizResponse response = teacherService.uploadQuiz(request);
+        UploadQuizResponse response = teacherService.uploadQuiz(request, file1);
         assertThat(numbers_of_quiz+1).isEqualTo(teacherService.getTeacherQuiz(request.getEmail()).size());
         assertThat(response).isNotNull();
     }

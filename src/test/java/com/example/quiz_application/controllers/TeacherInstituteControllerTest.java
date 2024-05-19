@@ -1,21 +1,26 @@
 package com.example.quiz_application.controllers;
 
-import com.example.quiz_application.dtos.request.AddTeacherToSchoolRequest;
-import com.example.quiz_application.dtos.request.CompleteTeacherRegistration;
-import com.example.quiz_application.dtos.request.CreateTokenRequest;
-import com.example.quiz_application.dtos.request.RemoveInstituteFromTeacherRequest;
+import com.example.quiz_application.dtos.request.*;
 import com.example.quiz_application.services.JwtService;
 import com.example.quiz_application.services.TeacherService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -103,6 +108,27 @@ public class TeacherInstituteControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andDo(print());
     }
+
+    @Test
+    @Sql("/scripts/insert.sql")
+    public void testThatTeacherCanUploadFileForQuiz() throws Exception {
+        UploadQuizRequest uploadQuizRequest = new UploadQuizRequest();
+        uploadQuizRequest.setEmail("ojot630@gmail.com");
+        uploadQuizRequest.setDescription("It is a science and interesting quiz application");
+        uploadQuizRequest.setTitle("Science");
+        File file = new File("C:\\Users\\User\\Downloads\\rapid.xls");
+        MockMultipartFile file1 = new MockMultipartFile("file", null, Files.probeContentType(Path.of(file.getPath())), new FileInputStream(file));
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/v1/teacher/quiz")
+                .file(file1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(uploadQuizRequest)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(print());
+    }
+
+
+
+
 
 
 }

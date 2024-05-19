@@ -9,6 +9,7 @@ import com.example.quiz_application.exceptions.*;
 import com.example.quiz_application.util.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -79,10 +80,10 @@ public class AppTeacherService implements TeacherService{
     }
 
     @Override
-    public UploadQuizResponse uploadQuiz(UploadQuizRequest request) throws FileFormatException, TeacherDoesNotExistException, IOException {
-        excelService.validate(request.getFile());
+    public UploadQuizResponse uploadQuiz(UploadQuizRequest request, MultipartFile file) throws FileFormatException, TeacherDoesNotExistException, IOException {
+        excelService.validate(file);
         Teacher teacher = findTeacher(request.getEmail());
-        QuizResponse quizResponse = quizService.createQuiz(teacher, request);
+        QuizResponse quizResponse = quizService.createQuiz(teacher, request, file);
         UploadQuizResponse response = new UploadQuizResponse();
         response.setMessage(AppUtils.QUIZ_UPLOADED_SUCCESSFULLY);
         response.setQuizResponse(quizResponse);
