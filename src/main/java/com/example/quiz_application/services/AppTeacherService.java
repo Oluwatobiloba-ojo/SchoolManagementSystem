@@ -7,6 +7,7 @@ import com.example.quiz_application.dtos.request.*;
 import com.example.quiz_application.dtos.response.*;
 import com.example.quiz_application.exceptions.*;
 import com.example.quiz_application.util.AppUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.example.quiz_application.util.AppUtils.*;
 
@@ -30,6 +30,8 @@ public class AppTeacherService implements TeacherService{
     private IExcelService excelService;
     @Autowired
     private QuizService quizService;
+    @Autowired
+    private ModelMapper mapper;
     @Override
     public CompleteTeacherRegistrationResponse completeRegistration(CompleteTeacherRegistration completeTeacherRegistration) throws InvalidPasswordException, InstituteDoesNotExistException, InvalidTokenException, IOException {
         DecodeToken decodeToken = jwtService.decode(completeTeacherRegistration.getToken());
@@ -99,6 +101,15 @@ public class AppTeacherService implements TeacherService{
     public List<Institution> getInstitute(String teacherEmail) throws TeacherDoesNotExistException {
         Teacher teacher = findTeacher(teacherEmail);
         return teacher.getInstitutions().stream().toList();
+    }
+
+    @Override
+    public List<TeacherResponse> findTeachersBy(Long instituteId) throws InstituteDoesNotExistException {
+        Institution institution = instituteService.findInstitute(instituteId);
+        return repository.findByInstitutionsContains(institution)
+                .stream()
+                .map(teacher -> mapper.map(teacher, TeacherResponse.class))
+                .toList();
     }
 
     private static boolean checkIfInstituteExist(Teacher teacher, Institution institution) {

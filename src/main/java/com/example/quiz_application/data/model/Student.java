@@ -1,9 +1,6 @@
 package com.example.quiz_application.data.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +16,6 @@ public class Student {
     private String email;
     private String name;
     private String password;
-    @OneToOne
+    @ManyToOne
     private Institution institution;
 }

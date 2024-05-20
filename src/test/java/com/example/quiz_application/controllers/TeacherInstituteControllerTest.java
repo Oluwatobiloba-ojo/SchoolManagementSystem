@@ -5,7 +5,6 @@ import com.example.quiz_application.services.JwtService;
 import com.example.quiz_application.services.TeacherService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +17,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -125,6 +123,18 @@ public class TeacherInstituteControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andDo(print());
     }
+
+    @Test
+    @Sql("/scripts/insert.sql")
+    public void testFindTeacherForAnInstitutes() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/teacher/teachers/"+200L)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(print());
+    }
+
+
+
 
 
 

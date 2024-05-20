@@ -21,6 +21,5 @@ public interface TeacherService {
     UploadQuizResponse uploadQuiz(UploadQuizRequest request, MultipartFile file) throws FileFormatException, TeacherDoesNotExistException, IOException;
     List<QuizResponse> getTeacherQuiz(String email) throws TeacherDoesNotExistException;
     List<Institution> getInstitute(String teacherEmail) throws TeacherDoesNotExistException;
-
-//    List<TeacherResponse> findTeachersBy(Long instituteId);
+    List<TeacherResponse> findTeachersBy(Long instituteId) throws InstituteDoesNotExistException;
 }

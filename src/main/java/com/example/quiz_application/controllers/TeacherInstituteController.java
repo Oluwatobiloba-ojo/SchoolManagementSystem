@@ -64,4 +64,9 @@ public class TeacherInstituteController {
             @RequestParam("file") MultipartFile file) throws FileFormatException, TeacherDoesNotExistException, IOException {
         return new ResponseEntity<>(teacherService.uploadQuiz(request, file), HttpStatus.OK);
     }
+
+    @GetMapping("/teachers/{instituteId}")
+    public ResponseEntity<List<TeacherResponse>> findTeachersByInstitute(@PathVariable Long instituteId) throws InstituteDoesNotExistException {
+        return new ResponseEntity<>(teacherService.findTeachersBy(instituteId), HttpStatus.OK);
+    }
 }

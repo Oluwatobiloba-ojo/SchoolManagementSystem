@@ -7,4 +7,5 @@ import lombok.Setter;
 @Setter
 public class TeacherResponse {
     private String name;
+    private String email;
 }

@@ -4,7 +4,6 @@ import com.example.quiz_application.data.model.Institution;
 import com.example.quiz_application.data.repository.InstitutionRepository;
 import com.example.quiz_application.dtos.request.AddStudentRequest;
 import com.example.quiz_application.dtos.request.AddTeacherRequest;
-import com.example.quiz_application.dtos.request.CreateTokenRequest;
 import com.example.quiz_application.dtos.request.InstitutionRegistrationRequest;
 import com.example.quiz_application.dtos.response.*;
 import com.example.quiz_application.exceptions.InstituteDoesNotExistException;
@@ -63,6 +62,8 @@ public class AppInstituteService implements InstituteService{
         return repository.findById(id).orElseThrow(() ->
                 new InstituteDoesNotExistException(String.format(INVALID_INSTITUTE_MESSAGE, id)));
     }
+
+
 
 
 }

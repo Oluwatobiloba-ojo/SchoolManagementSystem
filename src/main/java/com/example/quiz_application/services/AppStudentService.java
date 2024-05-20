@@ -72,4 +72,13 @@ public class AppStudentService implements StudentService{
         response.setStudent(mapper.map(savedStudent, StudentResponse.class));
         return response;
     }
+
+    @Override
+    public List<StudentResponse> findAllStudentsBy(Long instituteId) throws InstituteDoesNotExistException {
+        Institution institution = instituteService.findInstitute(instituteId);
+        return repository.findStudentByInstitution(institution)
+                .stream()
+                .map(student -> mapper.map(student, StudentResponse.class))
+                .toList();
+    }
 }
