@@ -40,7 +40,6 @@ public class AppStudentService implements StudentService{
         if(!verifyEmail(request.getEmail())) throw new InvalidRegistrationDetails(STUDENT_INVALID_EMAIL);
         Student student = mapper.map(request, Student.class);
         Student savedStudent = repository.save(student);
-        System.out.println(savedStudent);
         RegisterStudentResponse response = new RegisterStudentResponse();
         response.setMessage("Student registered successfully");
         response.setStudentResponse(mapper.map(savedStudent, StudentResponse.class));

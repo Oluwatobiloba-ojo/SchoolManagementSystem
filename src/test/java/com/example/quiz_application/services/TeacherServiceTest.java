@@ -104,6 +104,18 @@ class TeacherServiceTest {
         assertThat(response).isNotNull();
     }
 
+    @Test
+    @Sql("/scripts/insert.sql")
+    public void testThatTeacherCanUpdateQuestionOfAQuiz(){
+        UpdateQuestionRequest request = new UpdateQuestionRequest();
+        request.setQuestionId(3L);
+        request.setQuestion("What is the longest mountain");
+        request.setOptionA("everest");
+        request.setOptionB("kilimongaro");
+        request.setOptionC("Makalu");
+        request.setOptionD("Cho Oyu");
+    }
+
 
 }
 

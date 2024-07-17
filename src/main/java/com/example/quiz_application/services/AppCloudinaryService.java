@@ -24,10 +24,6 @@ public class AppCloudinaryService implements CloudinaryService{
         config.put("api_key", beanConfig.api_key);
         config.put("api_secret", beanConfig.api_secret);
         Cloudinary cloudinary = new Cloudinary(config);
-//        Map<String, Object> params = new HashMap<>();
-//        params.put("public_id", request.getFilePath());
-//        params.put("overwrite", true);
-//        params.put("resource_type", "file");
         Map uploadResult = cloudinary.uploader().upload(new File(request.getFilePath()), ObjectUtils.emptyMap());
         return (String) uploadResult.get("url");
     }
