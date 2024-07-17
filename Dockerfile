@@ -12,8 +12,8 @@ WORKDIR /app
 
 COPY gradlew gradlew
 COPY gradle gradle
-COPY build.gradle.kts build.gradle.kts
-COPY settings.gradle.kts settings.gradle.kts
+COPY build.gradle build.gradle
+COPY settings.gradle settings.gradle
 
 COPY src src
 
