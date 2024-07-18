@@ -20,7 +20,6 @@ COPY src src
 
 RUN chmod +x gradlew
 
-RUN ./gradlew build --stacktrace
 
 RUN ./gradlew build
 
