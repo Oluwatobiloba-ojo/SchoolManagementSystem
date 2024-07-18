@@ -46,7 +46,7 @@ public class StudentControllerTest {
     @Sql("/scripts/insert.sql")
     public void testCompleteStudentRegistration() throws Exception{
         CreateTokenRequest createTokenRequest = new CreateTokenRequest();
-        createTokenRequest.setEmail("ooluwatobi825@gmail.com");
+        createTokenRequest.setEmail("ooluwatobi895@gmail.com");
         createTokenRequest.setInstituteId(200L);
         CompleteStudentRegistrationRequest request = new CompleteStudentRegistrationRequest();
         request.setPassword("Password123");

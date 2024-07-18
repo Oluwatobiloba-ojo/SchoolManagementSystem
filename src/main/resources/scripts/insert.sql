@@ -22,7 +22,7 @@ INSERT INTO TEACHER_INSTITUTIONS(institutions_id, teacher_id) VALUES
  (200, 205);
 
 INSERT INTO STUDENT(id, email, name, password)VALUES
-  (205, 'ooluwatobi825@gmail.com', 'oluwatobi', 'password');
+  (205, 'ooluwatobi895@gmail.com', 'oluwatobi', 'password');
 
 INSERT INTO STUDENT(id, email, name, password, institution_id)VALUES
   (207, 'ooluwatobi825@gmail.com', 'oluwatobi', 'password', 200);

@@ -51,7 +51,7 @@ class StudentServiceTest {
     @Sql("/scripts/insert.sql")
     public void testThatStudentCreateAnAccountWhichAlreadyHaveAnInstitution() throws InvalidTokenException, StudentAlreadyTakenException, InstituteDoesNotExistException, IOException {
         CreateTokenRequest request = new CreateTokenRequest();
-        request.setEmail("ooluwatobi825@gmail.com");
+        request.setEmail("ooluwatobi895@gmail.com");
         request.setInstituteId(200L);
         String token = jwtService.createToken(request);
         CompleteStudentRegistrationRequest request1 = new CompleteStudentRegistrationRequest();

@@ -60,6 +60,7 @@ class TeacherServiceTest {
         request.setInstituteId(200L);
         long numbers_of_institute = teacherService.findTeacher(request.getEmail()).getInstitutions().size();
         RemoveInstituteFromTeacherResponse response = teacherService.removeInstitute(request);
+        System.out.println(teacherService.getInstitute(request.getEmail()));
         assertThat(response).isNotNull();
         assertThat(numbers_of_institute-1).isEqualTo(teacherService.findTeacher(request.getEmail()).getInstitutions().size());
     }

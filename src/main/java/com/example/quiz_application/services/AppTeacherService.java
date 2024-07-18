@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.example.quiz_application.util.AppUtils.*;
 
@@ -73,7 +74,10 @@ public class AppTeacherService implements TeacherService{
         Teacher teacher = findTeacher(request.getEmail());
         Institution institution = instituteService.findInstitute(request.getInstituteId());
         if(!checkIfInstituteExist(teacher, institution)) throw new InstitutionDoesNotBelongToTeacherException(INSTITUTE_REMOVE_MESSAGE);
-        teacher.getInstitutions().remove(institution);
+        teacher.setInstitutions(teacher.getInstitutions()
+                .stream()
+                .filter(institution1 -> !institution1.getId().equals(institution.getId()))
+                .collect(Collectors.toSet()));
         Teacher savedTeacher = repository.save(teacher);
         RemoveInstituteFromTeacherResponse response = new RemoveInstituteFromTeacherResponse();
         response.setMessage(TEACHER_REMOVE_FROM_INSTITUTE);

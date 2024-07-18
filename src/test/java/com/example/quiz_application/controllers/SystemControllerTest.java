@@ -21,7 +21,7 @@ class SystemControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/downloadFile"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().contentType(MediaType.APPLICATION_OCTET_STREAM))
-                .andExpect(header().string("Content-Disposition", "attachment; filename=\"filename.ext\""));
+                .andExpect(header().string("Content-Disposition", "attachment; filename=\"rapid.xls\""));
     }
 
 }
