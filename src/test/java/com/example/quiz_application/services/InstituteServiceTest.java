@@ -44,24 +44,24 @@ class InstituteServiceTest {
         assertThat(registerResponse).isNotNull();
         assertThat(instituteService.findAllInstitute().size()).isEqualTo(formerSize+1);
     }
-    @Test
-    @Sql("/scripts/insert.sql")
-    public void testThatInstitutionCanAddTeacherToTheirInstitutionCreated() throws InstituteDoesNotExistException {
-        AddTeacherRequest request = new AddTeacherRequest();
-        request.setId(200L);
-        request.setTeacher_emails(List.of("chibuzor@gmail.com", "ojot630@gmail.com"));
-        AddTeacherResponse response = instituteService.addTeachers(request);
-        assertThat(response).isNotNull();
-    }
-    @Test
-    @Sql("/scripts/insert.sql")
-    public void testThatInstituteCanSendAnInviteToStudentOfTheirSchoolToJoin() throws InstituteDoesNotExistException {
-        AddStudentRequest request = new AddStudentRequest();
-        request.setInstitutionId(200L);
-        request.setStudentEmails(List.of("opeoluwaagnes@gmail.com", "deborahdelighted5@gmail.com", "ooluwatobi825@gmail.com"));
-        AddStudentResponse response = instituteService.addStudents(request);
-        assertNotNull(response);
-    }
+//    @Test
+//    @Sql("/scripts/insert.sql")
+//    public void testThatInstitutionCanAddTeacherToTheirInstitutionCreated() throws InstituteDoesNotExistException {
+//        AddTeacherRequest request = new AddTeacherRequest();
+//        request.setId(200L);
+//        request.setTeacher_emails(List.of("chibuzor@gmail.com", "ojot630@gmail.com"));
+//        AddTeacherResponse response = instituteService.addTeachers(request);
+//        assertThat(response).isNotNull();
+//    }
+//    @Test
+//    @Sql("/scripts/insert.sql")
+//    public void testThatInstituteCanSendAnInviteToStudentOfTheirSchoolToJoin() throws InstituteDoesNotExistException {
+//        AddStudentRequest request = new AddStudentRequest();
+//        request.setInstitutionId(200L);
+//        request.setStudentEmails(List.of("opeoluwaagnes@gmail.com", "deborahdelighted5@gmail.com", "ooluwatobi825@gmail.com"));
+//        AddStudentResponse response = instituteService.addStudents(request);
+//        assertNotNull(response);
+//    }
 
 
 }

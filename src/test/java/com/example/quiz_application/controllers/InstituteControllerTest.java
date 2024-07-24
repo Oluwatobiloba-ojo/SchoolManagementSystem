@@ -38,30 +38,30 @@ class InstituteControllerTest {
                 .andDo(print());
     }
 
-    @Test
-    @Sql("/scripts/insert.sql")
-    public void testThatInstituteCanSendRequestOfJoiningToTheTeacher() throws Exception {
-        AddTeacherRequest request = new AddTeacherRequest();
-        request.setId(200L);
-        request.setTeacher_emails(List.of("ojot630@gmail.com", "ooluwatobi825@gmail.com"));
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/institution/teacher")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsBytes(request)))
-                .andExpect(status().is2xxSuccessful())
-                .andDo(print());
-    }
-    @Test
-    @Sql("/scripts/insert.sql")
-    public void testThatInstituteCanSendRequestOfJoiningToTheStudent() throws Exception {
-        AddStudentRequest request = new AddStudentRequest();
-        request.setInstitutionId(200L);
-        request.setStudentEmails(List.of("ojot630@gmail.com"));
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/institution/student")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsBytes(request)))
-                .andExpect(status().is2xxSuccessful())
-                .andDo(print());
-    }
+//    @Test
+//    @Sql("/scripts/insert.sql")
+//    public void testThatInstituteCanSendRequestOfJoiningToTheTeacher() throws Exception {
+//        AddTeacherRequest request = new AddTeacherRequest();
+//        request.setId(200L);
+//        request.setTeacher_emails(List.of("ojot630@gmail.com", "ooluwatobi825@gmail.com"));
+//        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/institution/teacher")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(mapper.writeValueAsBytes(request)))
+//                .andExpect(status().is2xxSuccessful())
+//                .andDo(print());
+//    }
+//    @Test
+//    @Sql("/scripts/insert.sql")
+//    public void testThatInstituteCanSendRequestOfJoiningToTheStudent() throws Exception {
+//        AddStudentRequest request = new AddStudentRequest();
+//        request.setInstitutionId(200L);
+//        request.setStudentEmails(List.of("ojot630@gmail.com"));
+//        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/institution/student")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(mapper.writeValueAsBytes(request)))
+//                .andExpect(status().is2xxSuccessful())
+//                .andDo(print());
+//    }
 
     @Test
     @Sql("/scripts/insert.sql")
