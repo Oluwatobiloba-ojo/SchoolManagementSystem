@@ -21,7 +21,7 @@ COPY src src
 RUN chmod +x gradlew
 
 
-RUN gradlew build
+RUN ./gradlew build
 
 FROM eclipse-temurin:19-jdk
 
