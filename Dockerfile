@@ -1,4 +1,4 @@
-FROM maven:3.8.7-openjdk-17 AS build
+FROM maven:3.8.5-openjdk-17 AS build
 
 RUN apt-get update && apt-get install -y wget unzip && apt-get clean
 
@@ -16,14 +16,11 @@ COPY build.gradle build.gradle
 COPY settings.gradle settings.gradle
 COPY src src
 
+
 RUN chmod +x gradlew
 RUN ./gradlew build
 
-FROM openjdk:19-jdk
-
-WORKDIR /app
-
-COPY --from=build /app/build/libs/*.jar app.jar
+FROM openjdk:17.0.1-jdk-slim
 
 EXPOSE 8080
 
