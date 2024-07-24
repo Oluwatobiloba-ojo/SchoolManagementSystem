@@ -1,10 +1,8 @@
 package com.example.quiz_application.util;
 
 
-import com.example.quiz_application.dtos.request.CreateTokenRequest;
 import com.example.quiz_application.dtos.request.StudentInvitationRequest;
 import com.example.quiz_application.dtos.request.TeacherInvitationRequestMessage;
-import com.example.quiz_application.services.AppJwtService;
 
 import static com.example.quiz_application.util.AppUtils.TEACHER_REGISTRATION_URL;
 
@@ -12,7 +10,7 @@ import static com.example.quiz_application.util.AppUtils.TEACHER_REGISTRATION_UR
 public class MessageDetails {
 
     public static String TEACHER_INVITATION_EMAIL(TeacherInvitationRequestMessage request){
-        String teacherUrl = TEACHER_REGISTRATION_URL+""+"/token="+request.getToken();
+        String teacherUrl = TEACHER_REGISTRATION_URL+"/token="+request.getToken();
            return  String.format("""
                    <!DOCTYPE>
                    <head>
@@ -33,7 +31,7 @@ public class MessageDetails {
                    </ul>
                    <p>To get started, simply click on the link below to create your teacher account:</p>
                    <a href="%s" target="_blank"><button>Click OOOOO</button></a>
-                   <p>If you have any questions or need assistance, feel free to reach out to our support team at [Your Support Email]. We look forward to having you on board!</p>            
+                   <p>If you have any questions or need assistance, feel free to reach out to our support team at [Your Support Email]. We look forward to having you on board!</p>           
                    <p>%s<p>
                    </div>
                    </body>
@@ -60,7 +58,7 @@ public class MessageDetails {
                                         </ul>
                    <p>To get started, simply click on the link below to create your student account:</p>
                    <a href="%s" target="_blank"><button>Click OOOOO</button></a>
-                   <p>If you have any questions or need assistance, feel free to reach out to our support team at [Your Support Email]. We look forward to having you on board!</p>            
+                   <p>If you have any questions or need assistance, feel free to reach out to our support team at [Your Support Email]. We look forward to having you on board!</p>           
                    <p>%s<p>
                    </div>
                    </body>

@@ -1,4 +1,4 @@
-FROM openjdk:19-jdk-slim AS build
+FROM maven:3.8.7-eclipse-temurin-19 AS build
 
 RUN apt-get update && apt-get install -y wget unzip
 
@@ -23,7 +23,7 @@ RUN chmod +x gradlew
 
 RUN ./gradlew build
 
-FROM openjdk:19-ea-1-jdk-slim
+FROM eclipse-temurin:19-jdk
 
 WORKDIR /app
 

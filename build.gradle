@@ -11,11 +11,13 @@ java {
 	sourceCompatibility = '19'
 }
 
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
 }
+
 
 repositories {
 	mavenCentral()
@@ -36,9 +38,10 @@ dependencies {
 	implementation group: 'com.cloudinary', name: 'cloudinary-http44', version: '1.38.0'
 	// https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
 	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.5'
-
-
 }
+
+
+
 
 tasks.named('test') {
 	useJUnitPlatform()

@@ -28,7 +28,6 @@ public class AppIExcelService implements IExcelService{
 
     @Override
     public void validate(MultipartFile file) throws FileFormatException {
-        System.out.println(file.getContentType());
         if (!Objects.equals(file.getContentType(), beanConfig.file_content_type))
             throw new FileFormatException(FILE_EXCEPTION_MESSAGE);
     }
@@ -48,7 +47,6 @@ public class AppIExcelService implements IExcelService{
                 Iterator<Cell> cellIterator = row.cellIterator();
                 int cellIndex = 0;
                 Quiz_Question question = new Quiz_Question();
-
                 convertCellValueToQuestion(quiz, cellIterator, cellIndex, question);
                 if (question.getQuestion().isEmpty()) break;
                 questions.add(question);

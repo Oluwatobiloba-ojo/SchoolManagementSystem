@@ -64,7 +64,7 @@ public class AppTeacherService implements TeacherService{
         teacher.getInstitutions().add(institution);
         repository.save(teacher);
         AddTeacherToSchoolResponse response = new AddTeacherToSchoolResponse();
-        response.setMessage(AppUtils.TEACHER_ADDED_TO_INSTITUTE);
+        response.setMessage(TEACHER_ADDED_TO_INSTITUTE);
         response.setTeacher(teacher);
         return response;
     }

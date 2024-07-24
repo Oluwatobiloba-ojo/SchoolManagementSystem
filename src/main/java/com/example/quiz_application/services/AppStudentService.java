@@ -55,7 +55,6 @@ public class AppStudentService implements StudentService{
     @Override
     public CompleteStudentRegistrationResponse register(CompleteStudentRegistrationRequest request1) throws InvalidTokenException, IOException, InstituteDoesNotExistException, StudentAlreadyTakenException {
         DecodeToken decodeToken = jwtService.decode(request1.getToken());
-        System.out.println(decodeToken);
         Institution institution = instituteService.findInstitute(decodeToken.getInstituteId());
         Student student = repository.findByEmail(decodeToken.getEmail()).orElse(new Student());
         if (student.getId() == null){

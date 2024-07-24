@@ -31,7 +31,6 @@ public class AppEmailService implements EmailService{
             HttpEntity<BrevoMailRequest> entity = getEntity(response, email, receiverCategory);
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<BrevoMailResponse> brevoResponse = restTemplate.postForEntity(url, entity, BrevoMailResponse.class);
-            System.out.println(brevoResponse.getBody());
         }
     }
 
