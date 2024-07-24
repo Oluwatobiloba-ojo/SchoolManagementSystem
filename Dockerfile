@@ -1,4 +1,4 @@
-FROM maven:3.8.7-openjdk-19 AS build
+FROM maven:3.8.7-openjdk-17 AS build
 
 RUN apt-get update && apt-get install -y wget unzip && apt-get clean
 
