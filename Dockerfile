@@ -21,7 +21,7 @@ FROM openjdk:17.0.1-jdk-slim
 
 WORKDIR /app
 
-COPY --from=build /app/build/libs/quiz_application-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /build/libs/quiz_application-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 
