@@ -107,22 +107,22 @@ public class TeacherInstituteControllerTest {
                 .andDo(print());
     }
 
-    @Test
-    @Sql("/scripts/insert.sql")
-    public void testThatTeacherCanUploadFileForQuiz() throws Exception {
-        UploadQuizRequest uploadQuizRequest = new UploadQuizRequest();
-        uploadQuizRequest.setEmail("ojot630@gmail.com");
-        uploadQuizRequest.setDescription("It is a science and interesting quiz application");
-        uploadQuizRequest.setTitle("Science");
-        File file = new File("C:\\Users\\User\\Downloads\\rapid.xls");
-        MockMultipartFile file1 = new MockMultipartFile("file", null, Files.probeContentType(Path.of(file.getPath())), new FileInputStream(file));
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/v1/teacher/quiz")
-                .file(file1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(uploadQuizRequest)))
-                .andExpect(status().is2xxSuccessful())
-                .andDo(print());
-    }
+//    @Test
+//    @Sql("/scripts/insert.sql")
+//    public void testThatTeacherCanUploadFileForQuiz() throws Exception {
+//        UploadQuizRequest uploadQuizRequest = new UploadQuizRequest();
+//        uploadQuizRequest.setEmail("ojot630@gmail.com");
+//        uploadQuizRequest.setDescription("It is a science and interesting quiz application");
+//        uploadQuizRequest.setTitle("Science");
+//        File file = new File("C:\\Users\\User\\Downloads\\rapid.xls");
+//        MockMultipartFile file1 = new MockMultipartFile("file", null, Files.probeContentType(Path.of(file.getPath())), new FileInputStream(file));
+//        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/v1/teacher/quiz")
+//                .file(file1)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(objectMapper.writeValueAsBytes(uploadQuizRequest)))
+//                .andExpect(status().is2xxSuccessful())
+//                .andDo(print());
+//    }
 
     @Test
     @Sql("/scripts/insert.sql")

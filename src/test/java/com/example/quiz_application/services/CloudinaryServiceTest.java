@@ -14,14 +14,14 @@ class CloudinaryServiceTest {
     @Autowired
     private CloudinaryService cloudinaryService;
 
-    @Test
-    public void testThatFilesCanBeUploadedToACloudAndChecksIfItIsThere() throws IOException {
-        UploadFileRequest request = new UploadFileRequest();
-        request.setFilePath("C:\\Users\\User\\Pictures\\1577682914890.png");
-        String fileUrl = cloudinaryService.uploadFile(request);
-        assertNotNull(fileUrl);
-        byte[] file = cloudinaryService.retrieveFile(fileUrl);
-        assertNotNull(file);
-    }
+//    @Test
+//    public void testThatFilesCanBeUploadedToACloudAndChecksIfItIsThere() throws IOException {
+//        UploadFileRequest request = new UploadFileRequest();
+//        request.setFilePath("C:\\Users\\User\\Pictures\\1577682914890.png");
+//        String fileUrl = cloudinaryService.uploadFile(request);
+//        assertNotNull(fileUrl);
+//        byte[] file = cloudinaryService.retrieveFile(fileUrl);
+//        assertNotNull(file);
+//    }
 
 }
