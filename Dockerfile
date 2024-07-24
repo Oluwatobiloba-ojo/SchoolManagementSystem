@@ -8,19 +8,20 @@ RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.
     && rm /tmp/gradle-${GRADLE_VERSION}-bin.zip
 ENV PATH=/opt/gradle/gradle-${GRADLE_VERSION}/bin:${PATH}
 
-WORKDIR /app
-
 COPY gradlew gradlew
 COPY gradle gradle
 COPY build.gradle build.gradle
 COPY settings.gradle settings.gradle
 COPY src src
 
-
 RUN chmod +x gradlew
 RUN ./gradlew build
 
 FROM openjdk:17.0.1-jdk-slim
+
+WORKDIR /app
+
+COPY --from=build /app/build/libs/quiz_application-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 
