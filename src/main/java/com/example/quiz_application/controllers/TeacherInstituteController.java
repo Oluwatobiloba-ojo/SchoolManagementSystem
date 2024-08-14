@@ -1,12 +1,10 @@
 package com.example.quiz_application.controllers;
 
-import com.example.quiz_application.data.model.Institution;
-import com.example.quiz_application.data.model.Teacher;
 import com.example.quiz_application.dtos.request.AddTeacherToSchoolRequest;
 import com.example.quiz_application.dtos.request.CompleteTeacherRegistration;
 import com.example.quiz_application.dtos.request.RemoveInstituteFromTeacherRequest;
 import com.example.quiz_application.dtos.request.UploadQuizRequest;
-import com.example.quiz_application.dtos.response.*;
+import com.example.quiz_application.dtos.response.ApiResponse;
 import com.example.quiz_application.exceptions.*;
 import com.example.quiz_application.services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/teacher")
@@ -26,47 +23,75 @@ public class TeacherInstituteController {
     private TeacherService teacherService;
 
     @PostMapping()
-    public ResponseEntity<CompleteTeacherRegistrationResponse> register(@RequestBody CompleteTeacherRegistration request) throws InvalidTokenException,
-            InstituteDoesNotExistException, InvalidPasswordException, IOException {
-        return new ResponseEntity<>(teacherService.completeRegistration(request), HttpStatus.CREATED);
+    public ResponseEntity<ApiResponse<?>> register(@RequestBody CompleteTeacherRegistration request){
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, teacherService.completeRegistration(request)), HttpStatus.CREATED);
+        }catch (InstituteDoesNotExistException | InvalidPasswordException |
+                IOException | InvalidRegistrationDetails | InvalidTokenException  exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 
     @PostMapping("/teacher")
-    public ResponseEntity<AddTeacherToSchoolResponse> addTeacher(
-            @RequestBody AddTeacherToSchoolRequest request) throws InstituteDoesNotExistException, TeacherDoesNotExistException, InstitutionAlreadyExist {
-        return new ResponseEntity<>(teacherService.addTeacherToSchool(request), HttpStatus.ACCEPTED);
+    public ResponseEntity<ApiResponse<?>> addTeacher(@RequestBody AddTeacherToSchoolRequest request){
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, teacherService.addTeacherToSchool(request)), HttpStatus.ACCEPTED);
+        }catch (InstituteDoesNotExistException | TeacherDoesNotExistException | InstitutionAlreadyExist exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<Teacher> findTeacher(@PathVariable String email) throws TeacherDoesNotExistException {
-        return new ResponseEntity<>(teacherService.findTeacher(email), HttpStatus.FOUND);
+    @GetMapping("/")
+    public ResponseEntity<ApiResponse<?>> findTeacher(@RequestParam("mail") String email) {
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, teacherService.findTeacher(email)), HttpStatus.FOUND);
+        }catch (TeacherDoesNotExistException exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 
     @DeleteMapping("/institute")
-    public ResponseEntity<RemoveInstituteFromTeacherResponse> removeInstitute(
-            @RequestBody RemoveInstituteFromTeacherRequest request) throws InstitutionDoesNotBelongToTeacherException, InstituteDoesNotExistException, TeacherDoesNotExistException, InstitutionAlreadyExist {
-        return new ResponseEntity<>(teacherService.removeInstitute(request), HttpStatus.OK);
+    public ResponseEntity<ApiResponse<?>> removeInstitute(@RequestBody RemoveInstituteFromTeacherRequest request){
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, teacherService.removeInstitute(request)), HttpStatus.OK);
+        }catch (InstitutionDoesNotBelongToTeacherException | InstituteDoesNotExistException | TeacherDoesNotExistException exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 
-    @GetMapping("/intitutes/{teacher_email}")
-    public ResponseEntity<List<Institution>> teacherInstitute(@PathVariable String teacher_email) throws TeacherDoesNotExistException {
-        return new ResponseEntity<>(teacherService.getInstitute(teacher_email), HttpStatus.FOUND);
+    @GetMapping("/institutes")
+    public ResponseEntity<ApiResponse<?>> teacherInstitute(@RequestParam("mail") String teacher_email){
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, teacherService.getInstitute(teacher_email)), HttpStatus.FOUND);
+        }catch (TeacherDoesNotExistException exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 
-    @GetMapping("/quiz/{teacher_email}")
-    public ResponseEntity<List<QuizResponse>> findQuiz(@PathVariable String teacher_email) throws TeacherDoesNotExistException {
-        return new ResponseEntity<>(teacherService.getTeacherQuiz(teacher_email), HttpStatus.FOUND);
+    @GetMapping("/quiz")
+    public ResponseEntity<ApiResponse<?>> findQuiz(@RequestParam("mail") String teacher_email){
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, teacherService.getTeacherQuiz(teacher_email)), HttpStatus.FOUND);
+        }catch (TeacherDoesNotExistException exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 
     @PostMapping("/quiz")
-    public ResponseEntity<UploadQuizResponse> createQuiz(
-            @RequestBody UploadQuizRequest request,
-            @RequestParam("file") MultipartFile file) throws FileFormatException, TeacherDoesNotExistException, IOException {
-        return new ResponseEntity<>(teacherService.uploadQuiz(request, file), HttpStatus.OK);
+    public ResponseEntity<ApiResponse<?>> createQuiz(@RequestBody UploadQuizRequest request, @RequestParam("file") MultipartFile file){
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, teacherService.uploadQuiz(request, file)), HttpStatus.OK);
+        }catch (FileFormatException | TeacherDoesNotExistException | IOException exception ){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 
-    @GetMapping("/teachers/{instituteId}")
-    public ResponseEntity<List<TeacherResponse>> findTeachersByInstitute(@PathVariable Long instituteId) throws InstituteDoesNotExistException {
-        return new ResponseEntity<>(teacherService.findTeachersBy(instituteId), HttpStatus.OK);
+    @GetMapping("/teachers")
+    public ResponseEntity<ApiResponse<?>> findTeachersByInstitute(@RequestParam("instituteId") Long instituteId) {
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, teacherService.findTeachersBy(instituteId)), HttpStatus.OK);
+        }catch (InstituteDoesNotExistException exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 }

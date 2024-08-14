@@ -33,11 +33,13 @@ public class AppTeacherService implements TeacherService{
     private QuizService quizService;
     @Autowired
     private ModelMapper mapper;
+    @Autowired
+    private SchoolValidationService validationService;
     @Override
-    public CompleteTeacherRegistrationResponse completeRegistration(CompleteTeacherRegistration completeTeacherRegistration) throws InvalidPasswordException, InstituteDoesNotExistException, InvalidTokenException, IOException {
+    public CompleteTeacherRegistrationResponse completeRegistration(CompleteTeacherRegistration completeTeacherRegistration) throws InstituteDoesNotExistException, InvalidTokenException, IOException, InvalidPasswordException {
         DecodeToken decodeToken = jwtService.decode(completeTeacherRegistration.getToken());
         Institution institution = instituteService.findInstitute(decodeToken.getInstituteId());
-        if (!completeTeacherRegistration.getPassword().equals(completeTeacherRegistration.getConfirmPassword())) throw new InvalidPasswordException(PASSWORD_NOT_MATCH);
+        validationService.validatePassword(completeTeacherRegistration.getPassword(), completeTeacherRegistration.getConfirmPassword());
         Teacher teacher = new Teacher();
         teacher.setName(completeTeacherRegistration.getName());
         teacher.setPassword(completeTeacherRegistration.getConfirmPassword());

@@ -14,10 +14,10 @@ import java.io.IOException;
 import java.util.List;
 
 public interface TeacherService {
-    CompleteTeacherRegistrationResponse completeRegistration(CompleteTeacherRegistration completeTeacherRegistration) throws InvalidPasswordException, InstituteDoesNotExistException, InvalidTokenException, IOException;
+    CompleteTeacherRegistrationResponse completeRegistration(CompleteTeacherRegistration completeTeacherRegistration) throws InvalidPasswordException, InstituteDoesNotExistException, InvalidTokenException, IOException, InvalidRegistrationDetails;
     Teacher findTeacher(String email) throws TeacherDoesNotExistException;
     AddTeacherToSchoolResponse addTeacherToSchool(AddTeacherToSchoolRequest request) throws InstituteDoesNotExistException, TeacherDoesNotExistException, InstitutionAlreadyExist;
-    RemoveInstituteFromTeacherResponse removeInstitute(RemoveInstituteFromTeacherRequest request) throws TeacherDoesNotExistException, InstituteDoesNotExistException, InstitutionAlreadyExist, InstitutionDoesNotBelongToTeacherException;
+    RemoveInstituteFromTeacherResponse removeInstitute(RemoveInstituteFromTeacherRequest request) throws TeacherDoesNotExistException, InstituteDoesNotExistException, InstitutionDoesNotBelongToTeacherException;
     UploadQuizResponse uploadQuiz(UploadQuizRequest request, MultipartFile file) throws FileFormatException, TeacherDoesNotExistException, IOException;
     List<QuizResponse> getTeacherQuiz(String email) throws TeacherDoesNotExistException;
     List<Institution> getInstitute(String teacherEmail) throws TeacherDoesNotExistException;

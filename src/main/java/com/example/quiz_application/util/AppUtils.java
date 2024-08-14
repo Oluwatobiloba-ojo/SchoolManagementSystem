@@ -24,4 +24,7 @@ public class AppUtils {
     public static final String TEACHER_REGISTRATION_URL = "localhost:8080/api/v1/teacher";
     public static final String STUDENT_REGISTRATION_LINK = "localhost:8080/api/v1/student";
     public static final String TEACHER_ADDED_TO_INSTITUTE = "Teacher added to institute";
+    public static final String PASSWORD_EMPTY = "Password is empty";
+    public static final String STUDENT_REGISTRATION_COMPLETED = "Student added to institute successfully";
+    public static final String STUDENT_REGISTRATION = "Student registered successfully";
 }
