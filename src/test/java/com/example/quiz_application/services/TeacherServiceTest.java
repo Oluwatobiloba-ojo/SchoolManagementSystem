@@ -3,19 +3,13 @@ package com.example.quiz_application.services;
 import com.example.quiz_application.dtos.request.*;
 import com.example.quiz_application.dtos.response.CompleteTeacherRegistrationResponse;
 import com.example.quiz_application.dtos.response.RemoveInstituteFromTeacherResponse;
-import com.example.quiz_application.dtos.response.UploadQuizResponse;
 import com.example.quiz_application.exceptions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,7 +23,7 @@ class TeacherServiceTest {
 
     @Test
     @Sql("/scripts/insert.sql")
-    public void testThatTeacherWhenSeeEmailCanInitializeTheEndpointByAddingSomeDetails() throws InstituteDoesNotExistException, InvalidPasswordException, InvalidTokenException, IOException {
+    public void testThatTeacherWhenSeeEmailCanInitializeTheEndpointByAddingSomeDetails() throws InstituteDoesNotExistException, InvalidPasswordException, InvalidTokenException, IOException, InvalidRegistrationDetails {
         CreateTokenRequest request = new CreateTokenRequest();
         request.setEmail("opeoluwaagnes@gmail.com");
         request.setInstituteId(202L);
@@ -54,7 +48,7 @@ class TeacherServiceTest {
 
     @Test
     @Sql("/scripts/insert.sql")
-    public void testThatTeachersCanRemoveInstitutionFromTheirListOfInstitution() throws TeacherDoesNotExistException, InstitutionDoesNotBelongToTeacherException, InstituteDoesNotExistException, InstitutionAlreadyExist {
+    public void testThatTeachersCanRemoveInstitutionFromTheirListOfInstitution() throws TeacherDoesNotExistException, InstitutionDoesNotBelongToTeacherException, InstituteDoesNotExistException {
         RemoveInstituteFromTeacherRequest request = new RemoveInstituteFromTeacherRequest();
         request.setEmail("ojot630@gmail.com");
         request.setInstituteId(200L);
