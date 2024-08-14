@@ -4,7 +4,6 @@ import com.example.quiz_application.dtos.request.SchoolValidationRequest;
 import com.example.quiz_application.dtos.response.SchoolValidationResponse;
 import com.example.quiz_application.exceptions.InvalidPasswordException;
 import com.example.quiz_application.exceptions.InvalidRegistrationDetails;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -20,12 +19,17 @@ import static com.example.quiz_application.util.AppUtils.PASSWORD_NOT_MATCH;
 @Service
 public class AppSchoolValidationService implements SchoolValidationService{
 
-    @Value("${API_URL}")
-    private String apiUrl;
-    @Value("${API_KEY}")
-    private String apiKey;
+
+    private static String apiUrl = System.getenv("API_URL");
+    private String apiKey = System.getenv("API_KEY");
+
+    public static void main(String[] args) {
+        System.out.println(apiUrl);
+        System.getenv().forEach((key, value) -> System.out.println(key + "_"+ value));
+    }
     @Override
     public SchoolValidationResponse validateRC(String number) throws InvalidRegistrationDetails {
+        System.getenv().forEach((key, value) -> System.out.println(key + "_"+ value));
         SchoolValidationRequest request = new SchoolValidationRequest();
         request.setSearch_term(number);
         HttpHeaders headers = new HttpHeaders();

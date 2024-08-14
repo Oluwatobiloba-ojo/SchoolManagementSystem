@@ -5,10 +5,7 @@ import com.example.quiz_application.dtos.request.CreateTokenRequest;
 import com.example.quiz_application.dtos.request.RegisterStudentRequest;
 import com.example.quiz_application.dtos.response.CompleteStudentRegistrationResponse;
 import com.example.quiz_application.dtos.response.RegisterStudentResponse;
-import com.example.quiz_application.exceptions.InstituteDoesNotExistException;
-import com.example.quiz_application.exceptions.InvalidRegistrationDetails;
-import com.example.quiz_application.exceptions.InvalidTokenException;
-import com.example.quiz_application.exceptions.StudentAlreadyTakenException;
+import com.example.quiz_application.exceptions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,7 +32,7 @@ class StudentServiceTest {
         assertThrows(InvalidRegistrationDetails.class, () -> studentService.register(request));
     }
     @Test
-    public void testThatStudentCanCreateAStudentAccountWithTheirEmail() throws InvalidRegistrationDetails {
+    public void testThatStudentCanCreateAStudentAccountWithTheirEmail() throws InvalidRegistrationDetails, InvalidPasswordException {
         RegisterStudentRequest request = new RegisterStudentRequest();
         request.setName("ojo");
         request.setEmail("ooluwatobi@gmail.com");

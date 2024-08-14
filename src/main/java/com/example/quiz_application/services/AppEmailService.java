@@ -5,7 +5,6 @@ import com.example.quiz_application.dtos.response.BrevoMailResponse;
 import com.example.quiz_application.dtos.response.InstituteResponse;
 import com.example.quiz_application.util.MessageDetails;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -21,10 +20,8 @@ import static com.example.quiz_application.util.AppUtils.*;
 public class AppEmailService implements EmailService{
     @Autowired
     private JwtService jwtService;
-    @Value("${brevo.api.url}")
-    private String url;
-    @Value("${brevo.api.key}")
-    private String apiKey;
+    private String url = System.getenv("brevo.api.url");
+    private String apiKey = System.getenv("brevo.api.key");
     @Override
     public void sendBulkEmail(List<String> teacherEmails, InstituteResponse response, String receiverCategory) {
         for (String email: teacherEmails) {
