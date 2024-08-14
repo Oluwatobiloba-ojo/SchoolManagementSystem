@@ -1,14 +1,12 @@
 package com.example.quiz_application.controllers;
 
-import com.example.quiz_application.data.model.Institution;
 import com.example.quiz_application.dtos.request.AddStudentRequest;
 import com.example.quiz_application.dtos.request.AddTeacherRequest;
 import com.example.quiz_application.dtos.request.InstitutionRegistrationRequest;
-import com.example.quiz_application.dtos.response.AddStudentResponse;
-import com.example.quiz_application.dtos.response.AddTeacherResponse;
+import com.example.quiz_application.dtos.response.ApiResponse;
 import com.example.quiz_application.dtos.response.InstituteResponse;
-import com.example.quiz_application.dtos.response.RegisterResponse;
 import com.example.quiz_application.exceptions.InstituteDoesNotExistException;
+import com.example.quiz_application.exceptions.InvalidPasswordException;
 import com.example.quiz_application.exceptions.InvalidRegistrationDetails;
 import com.example.quiz_application.services.InstituteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,23 +24,39 @@ public class InstituteController {
     private InstituteService instituteService;
 
     @PostMapping()
-    public ResponseEntity<RegisterResponse> register(@RequestBody InstitutionRegistrationRequest request) throws InvalidRegistrationDetails {
-        return new ResponseEntity<>(instituteService.register(request), HttpStatus.CREATED);
+    public ResponseEntity<ApiResponse<?>> register(@RequestBody InstitutionRegistrationRequest request){
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, instituteService.register(request)), HttpStatus.CREATED);
+        }catch (InvalidRegistrationDetails | InvalidPasswordException exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 
     @PostMapping("/teacher")
-    public ResponseEntity<AddTeacherResponse> inviteTeacher(@RequestBody AddTeacherRequest request) throws InstituteDoesNotExistException {
-        return new ResponseEntity<>(instituteService.addTeachers(request), HttpStatus.ACCEPTED);
+    public ResponseEntity<ApiResponse<?>> inviteTeacher(@RequestBody AddTeacherRequest request){
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, instituteService.addTeachers(request)), HttpStatus.ACCEPTED);
+        }catch (InstituteDoesNotExistException exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 
     @PostMapping("/student")
-    public ResponseEntity<AddStudentResponse> inviteStudent(@RequestBody AddStudentRequest request) throws InstituteDoesNotExistException {
-        return new ResponseEntity<>(instituteService.addStudents(request), HttpStatus.ACCEPTED);
+    public ResponseEntity<ApiResponse<?>> inviteStudent(@RequestBody AddStudentRequest request) {
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true,instituteService.addStudents(request)), HttpStatus.ACCEPTED);
+        }catch (InstituteDoesNotExistException exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Institution> findInstitute(@PathVariable Long id) throws InstituteDoesNotExistException {
-        return new ResponseEntity<>(instituteService.findInstitute(id), HttpStatus.FOUND);
+    @GetMapping("/")
+    public ResponseEntity<ApiResponse<?>> findInstitute(@RequestParam("id") Long id){
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, instituteService.findInstitute(id)), HttpStatus.FOUND);
+        }catch (InstituteDoesNotExistException exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 
     @GetMapping()

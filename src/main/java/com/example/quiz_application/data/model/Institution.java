@@ -21,6 +21,7 @@ public class Institution {
     private String rc_number;
     private String location;
     private String status;
+    private String password;
 
 
     public Institution(SchoolValidationResponse response) {

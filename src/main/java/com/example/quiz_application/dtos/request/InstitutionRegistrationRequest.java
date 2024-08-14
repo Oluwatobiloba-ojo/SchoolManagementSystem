@@ -7,4 +7,6 @@ import lombok.Setter;
 @Setter
 public class InstitutionRegistrationRequest {
     private String registrationNumber;
+    private String password;
+    private String confirmPassword;
 }

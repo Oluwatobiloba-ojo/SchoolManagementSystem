@@ -7,6 +7,7 @@ import com.example.quiz_application.dtos.request.AddTeacherRequest;
 import com.example.quiz_application.dtos.request.InstitutionRegistrationRequest;
 import com.example.quiz_application.dtos.response.*;
 import com.example.quiz_application.exceptions.InstituteDoesNotExistException;
+import com.example.quiz_application.exceptions.InvalidPasswordException;
 import com.example.quiz_application.exceptions.InvalidRegistrationDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +26,11 @@ public class AppInstituteService implements InstituteService{
     @Autowired
     private InstitutionRepository repository;
     @Override
-    public RegisterResponse register(InstitutionRegistrationRequest request) throws InvalidRegistrationDetails {
+    public RegisterResponse register(InstitutionRegistrationRequest request) throws InvalidRegistrationDetails, InvalidPasswordException {
+        validationService.validatePassword(request.getPassword(), request.getConfirmPassword());
         SchoolValidationResponse response = validationService.validateRC(request.getRegistrationNumber());
         Institution institution = new Institution(response);
+        institution.setPassword(request.getPassword());
         Institution savedInstitution = repository.save(institution);
         RegisterResponse registerResponse = new RegisterResponse();
         registerResponse.setId(savedInstitution.getId());

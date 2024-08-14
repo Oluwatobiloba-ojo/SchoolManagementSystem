@@ -8,7 +8,6 @@ import com.example.quiz_application.dtos.request.CreateTokenRequest;
 import com.example.quiz_application.dtos.request.DecodeToken;
 import com.example.quiz_application.exceptions.InvalidTokenException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -20,8 +19,8 @@ import static com.example.quiz_application.util.AppUtils.INVALID_TOKEN;
 
 @Service
 public class AppJwtService implements JwtService{
-    @Value("${oauth.api.key}")
-    private String secretKey;
+
+    private String secretKey = System.getenv("oauth.api.key");
     @Override
     public String createToken(CreateTokenRequest request) {
         return JWT.create()
